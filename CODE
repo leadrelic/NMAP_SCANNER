@@ -1,0 +1,49 @@
+#!/bin/bash
+read -p "Enter Target IP or IP Range: " IP_IN
+echo "Target IP is $IP_IN"
+echo "[1] TCP SYN PORT SCAN"
+echo "[2] TCP CONNECT PORT SCAN"
+echo "[3] UDP PORT SCAN"
+echo "[4] TCP ACK PORT SCAN"
+echo "[5] PING SWEEP SCAN"
+echo "[6] XMAS SCAN"
+echo "[7] PING SWEEP WITH HOSTS PORTS"
+echo "[8] NULL SCAN"
+echo "[9] FIN SCAN"
+echo "[10] OS FINGERPRINTING SCAN"
+echo "[11] QUIT"
+read -p "Choose an option: " NM_SEL
+case $NM_SEL in
+        1)
+            echo $(nmap -sS $IP_IN)
+            ;;
+        2)
+            echo $(nmap -sT $IP_IN)
+            ;;
+        3)
+            echo $(nmap -sU $IP_IN)
+            ;;
+    4)
+            echo $(nmap -sA $IP_IN)
+            ;;
+        5)
+            echo $(nmap -sP $IP_IN)
+            ;;
+        6)
+            echo $(nmap -sX $IP_IN)
+            ;;
+    7)
+            echo $(nmap -Pn $IP_IN)
+            ;;
+        8)
+            echo $(nmap -sN $IP_IN)
+            ;;
+        9)
+            echo $(nmap -sF $IP_IN)
+            ;;
+    10)
+            echo $(nmap -sV -O -v $IP_IN)
+            ;;
+        11)
+             exit;;
+esac
