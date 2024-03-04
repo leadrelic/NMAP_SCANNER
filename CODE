@@ -1,5 +1,7 @@
 #!/bin/bash
-read -p "Enter Target IP or IP Range: " IP_IN
+
+echo "Enter Target IP or IP Range (e.g., 192.168.1.0/24 for a subnet):"
+read -p "Target: " IP_IN
 echo "Target IP is $IP_IN"
 echo "[1] TCP SYN PORT SCAN"
 echo "[2] TCP CONNECT PORT SCAN"
@@ -13,37 +15,42 @@ echo "[9] FIN SCAN"
 echo "[10] OS FINGERPRINTING SCAN"
 echo "[11] QUIT"
 read -p "Choose an option: " NM_SEL
+
 case $NM_SEL in
-        1)
-            echo $(nmap -sS $IP_IN)
-            ;;
-        2)
-            echo $(nmap -sT $IP_IN)
-            ;;
-        3)
-            echo $(nmap -sU $IP_IN)
-            ;;
+    1)
+        nmap -sS "$IP_IN"
+        ;;
+    2)
+        nmap -sT "$IP_IN"
+        ;;
+    3)
+        nmap -sU "$IP_IN"
+        ;;
     4)
-            echo $(nmap -sA $IP_IN)
-            ;;
-        5)
-            echo $(nmap -sP $IP_IN)
-            ;;
-        6)
-            echo $(nmap -sX $IP_IN)
-            ;;
+        nmap -sA "$IP_IN"
+        ;;
+    5)
+        nmap -sP "$IP_IN"
+        ;;
+    6)
+        nmap -sX "$IP_IN"
+        ;;
     7)
-            echo $(nmap -Pn $IP_IN)
-            ;;
-        8)
-            echo $(nmap -sN $IP_IN)
-            ;;
-        9)
-            echo $(nmap -sF $IP_IN)
-            ;;
+        nmap -Pn "$IP_IN"
+        ;;
+    8)
+        nmap -sN "$IP_IN"
+        ;;
+    9)
+        nmap -sF "$IP_IN"
+        ;;
     10)
-            echo $(nmap -sV -O -v $IP_IN)
-            ;;
-        11)
-             exit;;
+        nmap -sV -O -v "$IP_IN"
+        ;;
+    11)
+        exit
+        ;;
+    *)
+        echo "Invalid option. Please enter a number between 1 and 11."
+        ;;
 esac
