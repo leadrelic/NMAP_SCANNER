@@ -1,56 +1,95 @@
 #!/bin/bash
 
+# Welcome message
+echo "Welcome to the Nmap Scanner Tool"
+echo "This script allows you to perform various Nmap scans on a specified IP or range."
+
+# Input for target IP
 echo "Enter Target IP or IP Range (e.g., 192.168.1.0/24 for a subnet):"
 read -p "Target: " IP_IN
-echo "Target IP is $IP_IN"
-echo "[1] TCP SYN PORT SCAN"
-echo "[2] TCP CONNECT PORT SCAN"
-echo "[3] UDP PORT SCAN"
-echo "[4] TCP ACK PORT SCAN"
-echo "[5] PING SWEEP SCAN"
-echo "[6] XMAS SCAN"
-echo "[7] PING SWEEP WITH HOSTS PORTS"
-echo "[8] NULL SCAN"
-echo "[9] FIN SCAN"
-echo "[10] OS FINGERPRINTING SCAN"
-echo "[11] QUIT"
-read -p "Choose an option: " NM_SEL
 
-case $NM_SEL in
-    1)
-        nmap -sS "$IP_IN"
-        ;;
-    2)
-        nmap -sT "$IP_IN"
-        ;;
-    3)
-        nmap -sU "$IP_IN"
-        ;;
-    4)
-        nmap -sA "$IP_IN"
-        ;;
-    5)
-        nmap -sP "$IP_IN"
-        ;;
-    6)
-        nmap -sX "$IP_IN"
-        ;;
-    7)
-        nmap -Pn "$IP_IN"
-        ;;
-    8)
-        nmap -sN "$IP_IN"
-        ;;
-    9)
-        nmap -sF "$IP_IN"
-        ;;
-    10)
-        nmap -sV -O -v "$IP_IN"
-        ;;
-    11)
-        exit
-        ;;
-    *)
-        echo "Invalid option. Please enter a number between 1 and 11."
-        ;;
-esac
+# Validate IP input
+if [[ -z "$IP_IN" ]]; then
+    echo "Error: IP address or range cannot be empty."
+    exit 1
+fi
+
+# Display IP and options
+echo "Target IP is $IP_IN"
+echo
+echo "Choose the type of scan you want to perform:"
+echo "[1] TCP SYN PORT SCAN         (Stealth scan)"
+echo "[2] TCP CONNECT PORT SCAN     (Full connection scan)"
+echo "[3] UDP PORT SCAN             (Scan for open UDP ports)"
+echo "[4] TCP ACK PORT SCAN         (Check firewall rules)"
+echo "[5] PING SWEEP SCAN           (Check for live hosts)"
+echo "[6] XMAS SCAN                 (Rare flags set)"
+echo "[7] PING SWEEP WITH HOSTS PORTS"
+echo "[8] NULL SCAN                 (No TCP flags set)"
+echo "[9] FIN SCAN                  (TCP FIN flag set)"
+echo "[10] OS FINGERPRINTING SCAN   (Detect OS and version)"
+echo "[11] QUIT                     (Exit script)"
+echo
+
+# Loop for multiple selections
+while true; do
+    read -p "Choose an option (1-11): " NM_SEL
+
+    case $NM_SEL in
+        1)
+            echo "Running TCP SYN PORT SCAN..."
+            nmap -sS "$IP_IN"
+            ;;
+        2)
+            echo "Running TCP CONNECT PORT SCAN..."
+            nmap -sT "$IP_IN"
+            ;;
+        3)
+            echo "Running UDP PORT SCAN..."
+            nmap -sU "$IP_IN"
+            ;;
+        4)
+            echo "Running TCP ACK PORT SCAN..."
+            nmap -sA "$IP_IN"
+            ;;
+        5)
+            echo "Running PING SWEEP SCAN..."
+            nmap -sP "$IP_IN"
+            ;;
+        6)
+            echo "Running XMAS SCAN..."
+            nmap -sX "$IP_IN"
+            ;;
+        7)
+            echo "Running PING SWEEP WITH HOSTS PORTS..."
+            nmap -Pn "$IP_IN"
+            ;;
+        8)
+            echo "Running NULL SCAN..."
+            nmap -sN "$IP_IN"
+            ;;
+        9)
+            echo "Running FIN SCAN..."
+            nmap -sF "$IP_IN"
+            ;;
+        10)
+            echo "Running OS FINGERPRINTING SCAN..."
+            nmap -sV -O -v "$IP_IN"
+            ;;
+        11)
+            echo "Exiting the script. Thank you for using the Nmap Scanner Tool."
+            exit 0
+            ;;
+        *)
+            echo "Invalid option. Please enter a number between 1 and 11."
+            ;;
+    esac
+
+    # Prompt to run another scan or exit
+    echo
+    read -p "Would you like to run another scan? (y/n): " CONTINUE
+    if [[ "$CONTINUE" != "y" ]]; then
+        echo "Exiting the script. Thank you for using the Nmap Scanner Tool."
+        break
+    fi
+done
