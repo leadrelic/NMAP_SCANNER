@@ -73,9 +73,9 @@ brew install nmap
 #### Download the Script
 ```bash
 # Clone or download the script
-wget https://your-repo/nmap_scanner.sh
+wget https://leadrelic/nmap_scanner.sh
 # Or
-curl -O https://your-repo/nmap_scanner.sh
+curl -O https://leadrelic/nmap_scanner.sh
 
 # Make it executable
 chmod +x nmap_scanner.sh
