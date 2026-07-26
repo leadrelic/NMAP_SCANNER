@@ -25,7 +25,15 @@ import ipaddress
 import json
 import os
 import re
-import readline  # noqa: F401 (imported for its side effect: enables line editing/history in cmd.Cmd)
+try:
+    import readline  # noqa: F401 — enables line editing/history in cmd.Cmd
+    HAVE_READLINE = True
+except ImportError:
+    # readline is Unix-only in the stdlib; on Windows this simply isn't
+    # available (pyreadline3 is a possible substitute, but not required —
+    # the shell still works fine without it, just without persistent
+    # history/line-editing).
+    HAVE_READLINE = False
 import shlex
 import shutil
 import socket
@@ -505,7 +513,7 @@ def main():
             break
         err("Invalid target format")
 
-    if HISTORY_FILE.exists():
+    if HAVE_READLINE and HISTORY_FILE.exists():
         try:
             readline.read_history_file(HISTORY_FILE)
         except OSError:
@@ -524,10 +532,11 @@ def main():
         print()
         shell._goodbye()
     finally:
-        try:
-            readline.write_history_file(HISTORY_FILE)
-        except OSError:
-            pass
+        if HAVE_READLINE:
+            try:
+                readline.write_history_file(HISTORY_FILE)
+            except OSError:
+                pass
 
 
 if __name__ == "__main__":
