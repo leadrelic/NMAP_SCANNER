@@ -24,8 +24,9 @@ It also does something most nmap wrappers don't bother with: it tells you honest
 
 ## Requirements
 
-- Python 3.7+ (uses only the standard library — no dependencies to install)
+- Python 3.7+ (standard library only — nothing to `pip install`)
 - `nmap` on your `PATH`
+- Command history/line-editing (up-arrow, tab-completion) needs the `readline` module, which is built into Python on Linux/macOS but not available on Windows. The tool detects this and runs fine either way — you just won't get persistent history on Windows unless you separately install `pyreadline3`.
 
 ```bash
 # macOS
@@ -33,6 +34,9 @@ brew install nmap
 
 # Debian/Ubuntu
 sudo apt install nmap
+
+# Windows
+# https://nmap.org/download.html#windows
 ```
 
 ## Usage
